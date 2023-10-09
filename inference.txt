@@ -1,0 +1,1 @@
+python test_generator.py --occlusion --cuda True --test_name test_name --gpu_ids 0 --datasetting unpaired --dataroot data --data_list test_pairs2.txt
