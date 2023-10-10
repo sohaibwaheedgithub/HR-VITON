@@ -48,7 +48,7 @@ def get_opt():
     parser.add_argument("--name", default="test")
     parser.add_argument("--gpu_ids", default="")
     parser.add_argument('-j', '--workers', type=int, default=4)
-    parser.add_argument('-b', '--batch-size', type=int, default=1)
+    parser.add_argument('-b', '--batch-size', type=int, default=2)
     parser.add_argument('--fp16', action='store_true', help='use amp')
 
     parser.add_argument("--dataroot", default="./data/")
@@ -89,7 +89,7 @@ def get_opt():
     
     # test visualize
     parser.add_argument("--no_test_visualize", action='store_true')    
-    parser.add_argument("--num_test_visualize", type=int, default=3)
+    parser.add_argument("--num_test_visualize", type=int, default=2)
     parser.add_argument("--test_datasetting", default="unpaired")
     parser.add_argument("--test_dataroot", default="./data/")
     parser.add_argument("--test_data_list", default="test_pairs.txt")
@@ -137,6 +137,7 @@ def train(opt, train_loader, test_loader, val_loader, board, tocg, D):
         # input1
         c_paired = inputs['cloth']['paired'].cuda()
         cm_paired = inputs['cloth_mask']['paired'].cuda()
+        
         cm_paired = torch.FloatTensor((cm_paired.detach().cpu().numpy() > 0.5).astype(np.float64)).cuda()
         # input2
         parse_agnostic = inputs['parse_agnostic'].cuda()
@@ -405,7 +406,7 @@ def train(opt, train_loader, test_loader, val_loader, board, tocg, D):
                     input2 = torch.cat([parse_agnostic, densepose], 1)
 
                     # forward
-                    flow_list, fake_segmap, warped_cloth_paired, warped_clothmask_paired = tocg(input1, input2)
+                    flow_list, fake_segmap, warped_cloth_paired, warped_clothmask_paired = tocg(opt, input1, input2)
                     
                     warped_cm_onehot = torch.FloatTensor((warped_clothmask_paired.detach().cpu().numpy() > 0.5).astype(np.float64)).cuda()
                     if opt.clothmask_composition != 'no_composition':

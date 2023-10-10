@@ -36,7 +36,7 @@ def get_opt():
     parser.add_argument('--name', type=str, required=True)
     parser.add_argument('--gpu_ids', type=str, default='0')
     parser.add_argument('-j', '--workers', type=int, default=4)
-    parser.add_argument('-b', '--batch_size', type=int, default=8)
+    parser.add_argument('-b', '--batch_size', type=int, default=2)
     parser.add_argument('--fp16', action='store_true', help='use amp')
     # Cuda availability
     parser.add_argument('--cuda',default=False, help='cuda or cpu')
@@ -57,14 +57,14 @@ def get_opt():
 
     parser.add_argument("--tensorboard_count", type=int, default=100)
     parser.add_argument("--display_count", type=int, default=100)
-    parser.add_argument("--save_count", type=int, default=10000)
+    parser.add_argument("--save_count", type=int, default=100)
     parser.add_argument("--load_step", type=int, default=0)
-    parser.add_argument("--keep_step", type=int, default=100000)
-    parser.add_argument("--decay_step", type=int, default=100000)
+    parser.add_argument("--keep_step", type=int, default=10)
+    parser.add_argument("--decay_step", type=int, default=10)
     parser.add_argument("--shuffle", action='store_true', help='shuffle input data')
     
     # test
-    parser.add_argument("--lpips_count", type=int, default=1000)
+    parser.add_argument("--lpips_count", type=int, default=10)
     parser.add_argument("--test_datasetting", default="paired")
     parser.add_argument("--test_dataroot", default="./data/")
     parser.add_argument("--test_data_list", default="test_pairs.txt")
@@ -107,7 +107,7 @@ def get_opt():
     parser.add_argument("--out_layer", choices=['relu', 'conv'], default="relu")
     parser.add_argument("--clothmask_composition", type=str, choices=['no_composition', 'detach', 'warp_grad'], default='warp_grad')
     # visualize
-    parser.add_argument("--num_test_visualize", type=int, default=3)
+    parser.add_argument("--num_test_visualize", type=int, default=2)
 
     opt = parser.parse_args()
 
