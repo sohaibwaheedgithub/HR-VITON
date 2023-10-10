@@ -153,7 +153,6 @@ def train(opt, train_loader, test_loader, val_loader, board, tocg, D):
         # inputs
         input1 = torch.cat([c_paired, cm_paired], 1)
         input2 = torch.cat([parse_agnostic, densepose], 1)
-        print(input2)
 
         # forward
         flow_list, fake_segmap, warped_cloth_paired, warped_clothmask_paired = tocg(opt, input1, input2)
@@ -239,7 +238,7 @@ def train(opt, train_loader, test_loader, val_loader, board, tocg, D):
             for i in range(len(flow_list)-1):
                 flow = flow_list[i]
                 N, fH, fW, _ = flow.size()
-                grid = mkgrid(N, iH, iW)
+                grid = mkgrid(N, iH, iW, opt)
                 flow = F.interpolate(flow.permute(0, 3, 1, 2), size = c_paired.shape[2:], mode=opt.upsample).permute(0, 2, 3, 1)
                 flow_norm = torch.cat([flow[:, :, :, 0:1] / ((fW - 1.0) / 2.0), flow[:, :, :, 1:2] / ((fH - 1.0) / 2.0)], 3)
                 warped_c = F.grid_sample(c_paired, flow_norm + grid, padding_mode='border')
