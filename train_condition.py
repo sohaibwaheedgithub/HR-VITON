@@ -102,7 +102,7 @@ def get_opt():
     parser.add_argument('--GANlambda', type=float, default=1)
     parser.add_argument('--tvlambda', type=float, default=2)
     parser.add_argument('--upsample', type=str, default='bilinear', choices=['nearest', 'bilinear'])
-    parser.add_argument('--val_count', type=int, default='1000')
+    parser.add_argument('--val_count', type=int, default='1')
     parser.add_argument('--spectral', action='store_true', help="Apply spectral normalization to D")
     parser.add_argument('--occlusion', action='store_true', help="Occlusion handling")
     
@@ -339,7 +339,7 @@ def train(opt, train_loader, test_loader, val_loader, board, tocg, D):
                     input2 = torch.cat([parse_agnostic, densepose], 1)
                     
                     # forward
-                    flow_list, fake_segmap, warped_cloth_paired, warped_clothmask_paired = tocg(input1, input2)
+                    flow_list, fake_segmap, warped_cloth_paired, warped_clothmask_paired = tocg(opt, input1, input2)
                 
                     # fake segmap cloth channel * warped clothmask
                     if opt.clothmask_composition != 'no_composition':
