@@ -102,7 +102,7 @@ def get_opt():
     parser.add_argument('--GANlambda', type=float, default=1)
     parser.add_argument('--tvlambda', type=float, default=2)
     parser.add_argument('--upsample', type=str, default='bilinear', choices=['nearest', 'bilinear'])
-    parser.add_argument('--val_count', type=int, default='1')
+    parser.add_argument('--val_count', type=int, default='3')
     parser.add_argument('--spectral', action='store_true', help="Apply spectral normalization to D")
     parser.add_argument('--occlusion', action='store_true', help="Occlusion handling")
     
