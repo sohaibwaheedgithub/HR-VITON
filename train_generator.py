@@ -215,7 +215,7 @@ def train(opt, train_loader, test_loader, test_vis_loader, board, tocg, generato
                 flow_list, fake_segmap, _, warped_clothmask_paired = tocg(opt, input1, input2)
                 
                 # warped cloth mask one hot 
-                warped_cm_onehot = torch.FloatTensor((warped_clothmask_paired.detach().cpu().numpy() > 0.5).astype(np.float)).cuda()
+                warped_cm_onehot = torch.FloatTensor((warped_clothmask_paired.detach().cpu().numpy() > 0.5).astype(np.float64)).cuda()
                 
                 if opt.clothmask_composition != 'no_composition':
                     if opt.clothmask_composition == 'detach':
@@ -411,7 +411,7 @@ def train(opt, train_loader, test_loader, test_vis_loader, board, tocg, generato
                     flow_list, fake_segmap, _, warped_clothmask_paired = tocg(opt, input1, input2)
                     
                     # warped cloth mask one hot 
-                    warped_cm_onehot = torch.FloatTensor((warped_clothmask_paired.detach().cpu().numpy() > 0.5).astype(np.float)).cuda()
+                    warped_cm_onehot = torch.FloatTensor((warped_clothmask_paired.detach().cpu().numpy() > 0.5).astype(np.float64)).cuda()
                     
                     if opt.clothmask_composition != 'no_composition':
                         if opt.clothmask_composition == 'detach':
@@ -514,10 +514,10 @@ def train(opt, train_loader, test_loader, test_vis_loader, board, tocg, generato
                             input2 = torch.cat([input_parse_agnostic_down, densepose_down], 1)
 
                             # forward
-                            flow_list, fake_segmap, _, warped_clothmask_paired = tocg(input1, input2)
+                            flow_list, fake_segmap, _, warped_clothmask_paired = tocg(opt, input1, input2)
                             
                             # warped cloth mask one hot 
-                            warped_cm_onehot = torch.FloatTensor((warped_clothmask_paired.detach().cpu().numpy() > 0.5).astype(np.float)).cuda()
+                            warped_cm_onehot = torch.FloatTensor((warped_clothmask_paired.detach().cpu().numpy() > 0.5).astype(np.float64)).cuda()
                             
                             if opt.clothmask_composition != 'no_composition':
                                 if opt.clothmask_composition == 'detach':
