@@ -408,7 +408,7 @@ def train(opt, train_loader, test_loader, test_vis_loader, board, tocg, generato
                     input2 = torch.cat([input_parse_agnostic_down, densepose_down], 1)
 
                     # forward
-                    flow_list, fake_segmap, _, warped_clothmask_paired = tocg(input1, input2)
+                    flow_list, fake_segmap, _, warped_clothmask_paired = tocg(opt, input1, input2)
                     
                     # warped cloth mask one hot 
                     warped_cm_onehot = torch.FloatTensor((warped_clothmask_paired.detach().cpu().numpy() > 0.5).astype(np.float)).cuda()
@@ -485,7 +485,7 @@ def train(opt, train_loader, test_loader, test_vis_loader, board, tocg, generato
             
             with torch.no_grad():
                 print("LPIPS")
-                for i in tqdm(range(500)):
+                for i in tqdm(range(3)):
                     inputs = test_loader.next_batch()
                     # input
                     agnostic = inputs['agnostic'].cuda()
@@ -577,7 +577,7 @@ def train(opt, train_loader, test_loader, test_vis_loader, board, tocg, generato
                     
                     avg_distance += model.forward(T2(im), T2(output_paired))
                     
-            avg_distance = avg_distance / 500
+            avg_distance = avg_distance / 3
             print(f"LPIPS{avg_distance}")
             board.add_scalar('test/LPIPS', avg_distance, step + 1)
                 
@@ -615,7 +615,7 @@ def main():
     opt.datamode = 'test'
     opt.data_list = opt.test_data_list
     test_dataset = CPDatasetTest(opt)
-    test_dataset = Subset(test_dataset, np.arange(500))
+    test_dataset = Subset(test_dataset, np.arange(3))
     test_loader = CPDataLoader(opt, test_dataset)
     
     # test vis loader

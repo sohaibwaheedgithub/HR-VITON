@@ -1,3 +1,12 @@
-keep_step (no epochs)
-num_test_visualize == batch_size
-val_count (at what step to perform validation)
+train_condition.py
+
+    keep_step (no epochs)
+    num_test_visualize == batch_size
+    val_count (at what step to perform validation)
+    set validation_set size on line 471 and 319
+
+train_generator.py
+    
+    git clone https://github.com/NVIDIA/apex
+    cd apex
+    python setup.py install
