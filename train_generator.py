@@ -36,7 +36,7 @@ def get_opt():
     parser.add_argument('--name', type=str, required=True)
     parser.add_argument('--gpu_ids', type=str, default='0')
     parser.add_argument('-j', '--workers', type=int, default=4)
-    parser.add_argument('-b', '--batch_size', type=int, default=2)
+    parser.add_argument('-b', '--batch_size', type=int, default=1)
     parser.add_argument('--fp16', action='store_true', help='use amp')
     # Cuda availability
     parser.add_argument('--cuda',default=False, help='cuda or cpu')
@@ -107,7 +107,7 @@ def get_opt():
     parser.add_argument("--out_layer", choices=['relu', 'conv'], default="relu")
     parser.add_argument("--clothmask_composition", type=str, choices=['no_composition', 'detach', 'warp_grad'], default='warp_grad')
     # visualize
-    parser.add_argument("--num_test_visualize", type=int, default=2)
+    parser.add_argument("--num_test_visualize", type=int, default=1)
 
     opt = parser.parse_args()
 
@@ -636,7 +636,7 @@ def main():
         input2_nc = opt.semantic_nc + 3  # parse_agnostic + densepose
         tocg = ConditionGenerator(opt, input1_nc=input1_nc, input2_nc=input2_nc, output_nc=13, ngf=96, norm_layer=nn.BatchNorm2d)
         # Load Checkpoint
-        load_checkpoint(tocg, opt.tocg_checkpoint)
+        load_checkpoint(tocg, opt.tocg_checkpoint, opt)
 
     # Generator model
     generator = SPADEGenerator(opt, 3+3+3)
@@ -652,8 +652,8 @@ def main():
 
     # Load Checkpoint
     if not opt.gen_checkpoint == '' and os.path.exists(opt.gen_checkpoint):
-        load_checkpoint(generator, opt.gen_checkpoint)
-        load_checkpoint(discriminator, opt.dis_checkpoint)
+        load_checkpoint(generator, opt.gen_checkpoint, opt)
+        load_checkpoint(discriminator, opt.dis_checkpoint, opt)
 
     # Train
     train(opt, train_loader, test_loader, test_vis_loader, board, tocg, generator, discriminator, model)
