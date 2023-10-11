@@ -1,0 +1,3 @@
+keep_step (no epochs)
+num_test_visualize == batch_size
+val_count (at what step to perform validation)
