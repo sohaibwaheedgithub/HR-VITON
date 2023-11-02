@@ -37,7 +37,7 @@ class CPDataset(data.Dataset):
                 im_name, c_name = line.strip().split()
                 im_names.append(im_name)
                 c_names.append(c_name)
-
+                  
         self.im_names = im_names
         self.c_names = dict()
         self.c_names['paired'] = im_names
