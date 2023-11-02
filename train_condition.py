@@ -447,6 +447,10 @@ def train(opt, train_loader, test_loader, val_loader, board, tocg, D):
         if (step + 1) % opt.save_count == 0:
             save_checkpoint(tocg, os.path.join(opt.checkpoint_dir, opt.name, 'tocg_step_%06d.pth' % (step + 1)),opt)
             save_checkpoint(D, os.path.join(opt.checkpoint_dir, opt.name, 'D_step_%06d.pth' % (step + 1)),opt)
+            
+            #delete previous checkpoint
+            os.remove(os.path.join(opt.checkpoint_dir, opt.name, 'tocg_step_%06d.pth' % ((step + 1) - opt.save_count)))
+            os.remove(os.path.join(opt.checkpoint_dir, opt.name, 'D_step_%06d.pth' % ((step + 1) - opt.save_count)))
 
 def main():
     opt = get_opt()
