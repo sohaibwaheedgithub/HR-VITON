@@ -593,9 +593,10 @@ def train(opt, train_loader, test_loader, test_vis_loader, board, tocg, generato
             save_checkpoint(generator.module, os.path.join(opt.checkpoint_dir, opt.name, 'gen_step_%06d.pth' % (step + 1)),opt)
             save_checkpoint(discriminator.module, os.path.join(opt.checkpoint_dir, opt.name, 'dis_step_%06d.pth' % (step + 1)),opt)
             
-            #delete previous checkpoint
-            os.remove(os.path.join(opt.checkpoint_dir, opt.name, 'gen_step_%06d.pth' % ((step + 1) - opt.save_count)))
-            os.remove(os.path.join(opt.checkpoint_dir, opt.name, 'dis_step_%06d.pth' % ((step + 1) - opt.save_count)))
+            if not step == 999:
+                #delete previous checkpoint
+                os.remove(os.path.join(opt.checkpoint_dir, opt.name, 'gen_step_%06d.pth' % ((step + 1) - opt.save_count)))
+                os.remove(os.path.join(opt.checkpoint_dir, opt.name, 'dis_step_%06d.pth' % ((step + 1) - opt.save_count)))
 
         if (step + 1) % 1000 == 0:
             scheduler_gen.step()
