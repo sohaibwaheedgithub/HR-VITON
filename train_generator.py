@@ -57,7 +57,7 @@ def get_opt():
 
     parser.add_argument("--tensorboard_count", type=int, default=100)
     parser.add_argument("--display_count", type=int, default=100)
-    parser.add_argument("--save_count", type=int, default=1000)
+    parser.add_argument("--save_count", type=int, default=100)
     parser.add_argument("--load_step", type=int, default=0)
     parser.add_argument("--keep_step", type=int, default=100000)
     parser.add_argument("--decay_step", type=int, default=100000)
@@ -593,7 +593,7 @@ def train(opt, train_loader, test_loader, test_vis_loader, board, tocg, generato
             save_checkpoint(generator.module, os.path.join(opt.checkpoint_dir, opt.name, 'gen_step_%06d.pth' % (step + 1)),opt)
             save_checkpoint(discriminator.module, os.path.join(opt.checkpoint_dir, opt.name, 'dis_step_%06d.pth' % (step + 1)),opt)
             
-            if not step == 999:
+            if not step == 99:
                 #delete previous checkpoint
                 os.remove(os.path.join(opt.checkpoint_dir, opt.name, 'gen_step_%06d.pth' % ((step + 1) - opt.save_count)))
                 os.remove(os.path.join(opt.checkpoint_dir, opt.name, 'dis_step_%06d.pth' % ((step + 1) - opt.save_count)))
